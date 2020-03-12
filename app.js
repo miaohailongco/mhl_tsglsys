@@ -48,13 +48,19 @@ server.use(bodyParser.urlencoded({
 //请求拦截
 server.use(function(req, res, next) {
 	var url = req.originalUrl; //获取浏览器中当前访问的nodejs路由地址
-	if (!loginFilter.doFilter(url)) { //该地址需要用户token验证
+	if (loginFilter.doFilter(url)) { //该地址需要用户token验证
 		var token = req.headers['authorization'];
 		if (token) {
 			//解析token
 			jwt.parseToken(token).then(function(result) {
 				user_id = result.user_id;
-				next();
+				return userDao.queryUserById(user_id);
+			}).then((result)=>{
+				if(result.length == 0){
+					next(new ServiceError('TOKEN已失效，请重新登录'));
+				}else{
+					next();
+				}
 			}).catch(function(error) {
 				next(error);
 			})
@@ -77,7 +83,6 @@ server.use("/api/user",UserController);
 //异常捕获
 server.use(function(error, req, res, next) {
 	if (error) {
-		console.log(error);
 		if (error.name == "ServiceError") {
 			res.json(new JsonResult(JsonResult.STATUS_SERVICE_ERROR, error.message));
 		} else if (error.name == "TokenError") {

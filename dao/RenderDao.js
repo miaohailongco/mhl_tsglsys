@@ -54,7 +54,6 @@ dao.modifyRender = function(render){
 dao.queryRenderById = function(render_id){
 	return new Promise(function(resolve,reject){
 		sqlUtil.query('render_id',render_id).then((result)=>{
-			console.log(render_id);
 			resolve(result);
 		}).catch((error)=>{
 			reject(error);

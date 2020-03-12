@@ -81,7 +81,6 @@ dao.queryBookByMore = function(options){
 dao.queryBookCounts = function(options){
 	return new Promise(function(resolve,reject){
 		sqlUtil.queryCounts(options).then((result)=>{
-			console.log(result);
 			resolve(result[0]['count(1)']);
 		}).catch((error)=>{
 			reject(error);

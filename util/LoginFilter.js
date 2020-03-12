@@ -4,18 +4,18 @@
 class LoginFilter {
 	constructor() {
 		this.routes = [
-			'/api/user/getUser',
-			'/api/user/modifyPassword',
-			'/api/user/authAdmin'
+			'/api/user/login',
+			'/api/user/register',
+			'/api/user/sendMessage'
 		]
 	}
 	
 	//用户登录路径拦截
 	doFilter(route){
 		if(this.routes.includes(route)){
-			return false;
+			return false;//不需要登录		
 		}else{
-			return true;
+			return true;//需要登录
 		}
 	}
 }

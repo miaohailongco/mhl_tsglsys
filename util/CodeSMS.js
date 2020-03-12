@@ -5,13 +5,13 @@ var QcloudSms = require("qcloudsms_js");
 class CodeSMS {
 	constructor(phoneNumber, params) {
 		// 短信应用 SDK AppID
-		this.appid = 1400278107;
+		this.appid = 1400306756;
 		// 短信应用 SDK AppKey
-		this.appkey = "08cc44a7812dedecfc5537efba885626";
+		this.appkey = "3471e9b44a09ee793d3a368d1cd8f871";
 		// 短信模板 ID，需要在短信控制台中申请
-		this.templateId = 455079;
+		this.templateId = 533934;
 		// 签名，签名参数使用的是`签名内容`，而不是`签名ID`
-		this.smsSign = "智顺科技";
+		this.smsSign = "mvi网站";
 		//需要发送短信的手机号码
 		this.phoneNumber = phoneNumber;
 		//发送的数据数组

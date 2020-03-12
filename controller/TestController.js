@@ -16,6 +16,7 @@ const jwt = require("../util/JwtToken")
 const util = require("../util/util")
 //引入实体
 const Render = require("../entity/Render")
+const User = require("../entity/User")
 //引入连接池模块
 const pool = require("../pool")
 //dao
@@ -25,11 +26,9 @@ const bookTypeDao = require("../dao/BookTypeDao")
 const renderDao = require("../dao/RenderDao")
 
 router.post('/test',(req,res,next)=>{
-	var options = {
-		render_user:0
-	}
-	renderDao.queryRenderConuts(options).then((result)=>{
-		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'ok',result));
+	var user = new User(null,'18756588797','mhl130125','缪海龙',0,new Date(),new Date());
+	userDao.createUser(user).then((result)=>{
+		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'注册成功'));
 	}).catch((error)=>{
 		next(error)
 	})
