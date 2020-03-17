@@ -18,6 +18,8 @@ const User = require("../entity/User")
 const SMSCode = require("../util/CodeSMS.js")
 //引入验证码缓存
 const SMSCache = require("../util/SMSCodeCache.js")
+//引入分页对象
+const PageObject = require("../util/PageObject.js")
 //创建业务类
 const service = {};
 
@@ -110,6 +112,44 @@ service.loginCode = function(req,res,next,params){
 	})
 }
 
+//查询用户
+service.queryUser = function(req,res,next,params){
+	var options = {
+		user_phone:params.user_phone,
+		user_name:params.user_name
+	}
+	if(params.user_type == 0 || params.user_type == 1){
+		options.user_type = params.user_type
+	}
+	var pageObj = null;
+	userDao.queryUserCounts(options).then((result)=>{
+		if(result == 0){
+			throw new ServiceError('暂无数据');
+		}
+		pageObj = new PageObject(params.startIndex,params.pageSize,result)
+		options.order1 = 'user_id';
+		options.order2 = 'asc';
+		options.startIndex = params.startIndex;
+		options.pageSize = params.pageSize;
+		return userDao.queryUserByMore(options)
+	}).then((result)=>{
+		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'OK',{
+			pageObj:pageObj,
+			users:result
+		}))
+	}).catch((error)=>{
+		next(error);
+	})
+}
 
+//删除用户
+service.deleteUser = function(req,res,next,params){
+	var user_id = params.user_id;
+	userDao.deleteUser(user_id).then((result)=>{
+		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'OK'))
+	}).catch((error)=>{
+		next(error);
+	})
+}
 
 module.exports = service

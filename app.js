@@ -76,12 +76,16 @@ const TestController = require("./controller/TestController")
 //引入controller目录下的js接口文件
 const UserController = require("./controller/UserController")
 
+const BookController = require("./controller/BookController")
+
 //挂载路由器
-server.use('/api/test',TestController)
+server.use('/api/test',TestController);
 server.use("/api/user",UserController);
+server.use("/api/book",BookController);
 
 //异常捕获
 server.use(function(error, req, res, next) {
+	console.log(error);
 	if (error) {
 		if (error.name == "ServiceError") {
 			res.json(new JsonResult(JsonResult.STATUS_SERVICE_ERROR, error.message));

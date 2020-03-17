@@ -58,4 +58,33 @@ router.post("/loginCode",(req,res,next)=>{
 	userService.loginCode(req,res,next,params)
 })
 
+//查询用户
+router.post("/searchUser",(req,res,next)=>{
+	var user_phone = req.body.user_phone;
+	var user_name = req.body.user_name;
+	var user_type = Number(req.body.user_type);
+	var pageCurrent = Number(req.body.startIndex);
+	var pageSize = Number(req.body.pageSize);
+	var startIndex = (pageCurrent - 1) * pageSize;
+	var params = {
+		user_phone:user_phone,
+		user_name:user_name,
+		user_type:user_type,
+		order1:"user_id",
+		order2:"asc",
+		startIndex:startIndex,
+		pageSize:pageSize
+	}
+	userService.queryUser(req,res,next,params)
+})
+
+//删除用户
+router.post("/deleteUser",(req,res,next)=>{
+	var user_id = req.body.user_id;
+	var params = {
+		user_id:user_id
+	}
+	userService.deleteUser(res,res,next,params)
+})
+
 module.exports = router
