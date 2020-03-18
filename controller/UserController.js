@@ -58,8 +58,8 @@ router.post("/loginCode",(req,res,next)=>{
 	userService.loginCode(req,res,next,params)
 })
 
-//查询用户
-router.post("/searchUser",(req,res,next)=>{
+//多条件查查询用户
+router.post("/searchUsers",(req,res,next)=>{
 	var user_phone = req.body.user_phone;
 	var user_name = req.body.user_name;
 	var user_type = Number(req.body.user_type);
@@ -76,6 +76,30 @@ router.post("/searchUser",(req,res,next)=>{
 		pageSize:pageSize
 	}
 	userService.queryUser(req,res,next,params)
+})
+
+//根据id查询用户
+router.post("/searchUser",(req,res,next)=>{
+	var user_id = req.body.user_id;
+	var params = {
+		user_id:user_id
+	}
+	userService.queryUserById(req,res,next,params)
+})
+
+//修改用户
+router.post("/modifyUser",(req,res,next)=>{
+	var user_id = req.body.user_id;
+	var user_phone = req.body.user_phone;
+	var user_name = req.body.user_name;
+	var user_type = req.body.user_type;
+	var params = {
+		user_id:user_id,
+		user_phone:user_phone,
+		user_name:user_name,
+		user_type:user_type
+	}
+	userService.modifyUser(req,res,next,params)
 })
 
 //删除用户
