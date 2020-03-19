@@ -69,7 +69,7 @@ service.login = function(req,res,next,params){
 //发送验证码
 service.sendMessage = function(req,res,next,params){
 	userDao.queryUserByPhone(params.user_phone).then((result)=>{
-		if(result.length != 0){
+		if(result.length != 0 && params.loginRegister != '0'){
 			throw new ServiceError('该手机号已被注册')
 		}
 		var code = util.randomCheckCode();

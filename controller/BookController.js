@@ -13,7 +13,7 @@ const bookService = require("../service/BookService")
 
 
 //查询书籍
-router.post("/searchBook",(req,res,next)=>{
+router.post("/searchBooks",(req,res,next)=>{
 	var book_name = req.body.book_name;
 	var book_author = req.body.book_author;
 	var book_company = req.body.book_company;
@@ -62,7 +62,36 @@ router.post('/addBook',(req,res,next)=>{
 	bookService.addBook(req,res,next,params);
 })
 
+//根据id查询书籍信息
+router.post('/searchBook',(req,res,next)=>{
+	var book_id = req.body.book_id;
+	var params = {
+		book_id:book_id
+	}
+	bookService.queryBookById(req,res,next,params)
+})
 
+//修改书籍信息
+router.post('/modifyBook',(req,res,next)=>{
+	var book_id = req.body.book_id;
+	var book_name = req.body.book_name;
+	var book_author = req.body.book_author;
+	var book_company = req.body.book_company;
+	var book_company_date = new Date(req.body.book_company_date);
+	var book_type = req.body.book_type;
+	var book_counts = req.body.book_counts;
+	var params = {
+		book_id:book_id,
+		book_name:book_name,
+		book_author:book_author,
+		book_company:book_company,
+		book_company_date:book_company_date,
+		book_type:book_type,
+		book_counts:book_counts
+	}
+	console.log(params);
+	bookService.modifyBook(req,res,next,params)
+})
 
 
 

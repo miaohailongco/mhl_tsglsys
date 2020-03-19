@@ -74,4 +74,35 @@ service.addBook = function(req,res,next,params){
 	})
 }
 
+//根据id查询书籍
+service.queryBookById = function(req,res,next,params){
+	var book_id = params.book_id;
+	bookDao.queryBookById(book_id).then((result)=>{
+		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'OK',result))
+	}).catch((error)=>{
+		next(error);
+	})
+}
+
+//修改书籍信息
+service.modifyBook = function(req,res,next,params){
+	var book_id = params.book_id;
+	bookDao.queryBookById(book_id).then((result)=>{
+		var book = result[0];
+		book.book_name = params.book_name;
+		book.book_author = params.book_author;
+		book.book_company = params.book_company;
+		book.book_company_date = params.book_company_date;
+		book.book_type = params.book_type;
+		book.book_counts = params.book_counts;
+		bookDao.modifyBook(book,'book_id').then((result)=>{
+			return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'OK'))
+		}).catch((error)=>{
+			next(error);
+		})
+	}).catch((error)=>{
+		next(error);
+	})
+}
+
 module.exports = service

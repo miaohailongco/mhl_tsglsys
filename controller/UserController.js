@@ -12,8 +12,10 @@ const userService = require("../service/UserService")
 //发送验证码
 router.post("/sendMessage",(req,res,next)=>{
 	var user_phone = req.body.user_phone;
+	var loginRegister = req.body.loginRegister;
 	userService.sendMessage(req,res,next,{
-		user_phone:user_phone
+		user_phone:user_phone,
+		loginRegister:loginRegister
 	})
 })
 
