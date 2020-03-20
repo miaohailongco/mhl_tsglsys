@@ -78,10 +78,13 @@ const UserController = require("./controller/UserController")
 
 const BookController = require("./controller/BookController")
 
+const BookTypeController = require("./controller/BookTypeController")
+
 //挂载路由器
 server.use('/api/test',TestController);
 server.use("/api/user",UserController);
 server.use("/api/book",BookController);
+server.use("/api/bookType",BookTypeController);
 
 //异常捕获
 server.use(function(error, req, res, next) {
