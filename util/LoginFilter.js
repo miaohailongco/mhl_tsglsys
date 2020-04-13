@@ -6,7 +6,8 @@ class LoginFilter {
 		this.routes = [
 			'/api/user/login',
 			'/api/user/register',
-			'/api/user/sendMessage'
+			'/api/user/sendMessage',
+			'/api/user/loginCode'
 		]
 	}
 	

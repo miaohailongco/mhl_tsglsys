@@ -2,6 +2,7 @@
 const pool = require("../pool")
 //dao
 const bookDao = require("../dao/BookDao")
+const bookTypeDao = require("../dao/BookTypeDao")
 //引入JsonResult类
 const JsonResult = require("../util/JsonResult")
 //引入异常
@@ -34,6 +35,7 @@ service.queryBook = function(req,res,next,params){
 		options.book_type = params.book_type
 	}
 	var pageObj = null;
+	var bookType = null;
 	bookDao.queryBookCounts(options).then((result)=>{
 		if(result == 0){
 			throw new ServiceError('暂无数据');
@@ -44,6 +46,19 @@ service.queryBook = function(req,res,next,params){
 		options.startIndex = params.startIndex;
 		options.pageSize = params.pageSize;
 		return bookDao.queryBookByMore(options);
+	}).then((result)=>{
+		bookType = result;
+		var funs = [];
+		bookType.forEach((item,index)=>{
+			funs.push(bookTypeDao.queryBookTypeById(item.book_type))
+		})
+		return Promise.all(funs)
+	}).then((result)=>{
+		result.forEach((item,index)=>{
+			bookType[index].bookType = item[0].bt_name;
+			// console.log(item[0].bt_name);
+		})
+		return bookType
 	}).then((result)=>{
 		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'OK',{
 			pageObj:pageObj,
